@@ -219,7 +219,8 @@ struct ContentView: View {
                                 }
                             }
                         }
-                        Text("\(bondPrice)")
+                        Text(String(format: "%.2f",bondPrice))
+                        
                             .fontWeight(.bold)
                             .foregroundStyle(.white)
                             .padding()
