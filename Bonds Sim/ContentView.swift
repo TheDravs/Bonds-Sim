@@ -82,7 +82,7 @@ struct ContentView: View {
                                             )
                                             .shadow(color: Color.black.opacity(0.05), radius: 2, x: 0, y: 1)
                                             .accessibilityLabel("Face Value Input")
-                                            .onChange(of: faceValue) { oldValue, newValue in
+                                            .onChange(of: faceValue) { newValue in
                                                 if newValue < 0 {
                                                     faceValue = 0
                                                 }
