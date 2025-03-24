@@ -265,9 +265,10 @@ struct ContentView: View {
                     }
                     .padding(.horizontal)
                     .padding(.bottom)
+                    .navigationTitle("Bonds Sim")
+                    .navigationBarTitleDisplayMode(.large)
                 }
-                .navigationTitle("Bonds Sim")
-                .navigationBarTitleDisplayMode(.large)
+                
             }
         } //end body
         
