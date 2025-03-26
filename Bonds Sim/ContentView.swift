@@ -19,6 +19,8 @@ struct ContentView: View {
     
     @State private var bondPrice = 0.0
     
+    @FocusState private var isFaceValueFocused: Bool
+    
 // MARK: Computed Properties
     private var rate: Double {
         (referenceRate + creditSpread) / 100
@@ -55,9 +57,10 @@ struct ContentView: View {
                 VStack {
                     List {
                         
+                       
                         
                         Section {
-                        
+                     
                             VStack(alignment: .leading) {
                                 
                                 Text("Credit Parameters")
@@ -73,6 +76,15 @@ struct ContentView: View {
                                         
                                         TextField("", value: $faceValue, formatter: currencyFormatter)
                                             .keyboardType(.decimalPad)
+                                            .focused($isFaceValueFocused)
+                                            .toolbar {
+                                                    ToolbarItemGroup(placement: .keyboard) {
+                                                        Spacer()
+                                                        Button("Done") {
+                                                            isFaceValueFocused = false  // Dismiss keyboard
+                                                        }
+                                                    }
+                                                }
                                             .padding()
                                             .background(Color(.systemGray6))
                                             .cornerRadius(8)
@@ -114,7 +126,12 @@ struct ContentView: View {
                                     
                                     Picker("Credit Rating", selection: $creditRating) {
                                         Text("Investment Grade").tag("Investment Grade")
-                                        Text("HY").tag("HY")
+                                        Text("High Yield").tag("High Yield")
+                                    }
+                                    .onChange(of: creditRating) { newValue in
+                                        if newValue == "High Yield" {
+                                            creditSpread = 1.0
+                                        }
                                     }
                                     .padding(.vertical, 10)
                                     .padding(.horizontal, 15)
@@ -128,7 +145,6 @@ struct ContentView: View {
                                             .stroke(Color.gray.opacity(0.3), lineWidth: 1)
                                     )
                                     .shadow(color: Color.black.opacity(0.05), radius: 2, x: 0, y: 1)
-                                    
                                     
                                     
                                     
@@ -163,7 +179,7 @@ struct ContentView: View {
                                 .padding(.vertical, 1)
                             }
                             
-                            VStack(alignment: .leading, spacing: 15) {
+                            VStack(alignment: .leading, spacing: 1) {
                                 
                                
                                 Text("Credit Spread")
@@ -183,7 +199,7 @@ struct ContentView: View {
                                         .font(.system(.headline, design: .rounded))
                                         .foregroundColor(.blue)
                                         .padding(.horizontal, 12)
-                                        .padding(.vertical, 6)
+                                        .padding(.vertical, 1)
                                         .background(
                                             RoundedRectangle(cornerRadius: 8)
                                                 .fill(Color.blue.opacity(0.1))
@@ -200,7 +216,7 @@ struct ContentView: View {
                                 Slider(value: $maturity, in: 1...10, step: 1.0) {
                                     Text("Bond's Maturity")
                                 }
-                                .padding(.vertical, 5)
+                                .padding(.vertical, 1)
                                 .accentColor(.blue)
                                 .padding(.vertical, 1)
                                 
@@ -211,7 +227,7 @@ struct ContentView: View {
                                         .font(.system(.headline, design: .rounded))
                                         .foregroundColor(.blue)
                                         .padding(.horizontal, 12)
-                                        .padding(.vertical, 6)
+                                        .padding(.vertical, 1)
                                         .background(
                                             RoundedRectangle(cornerRadius: 8)
                                                 .fill(Color.blue.opacity(0.1))
