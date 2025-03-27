@@ -11,7 +11,7 @@ import SwiftUI
 struct Bonds_SimApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            TabViewContainer()
         }
     }
 }
