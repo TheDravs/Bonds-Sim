@@ -26,6 +26,11 @@ struct TabViewContainer: View {
                        Image(systemName: "info.circle")
                        Text("Details")
                    }
+               
+               SovereignBondsView()
+                   .tabItem {
+                       Image(systemName: "dollarsign.circle")
+                   }
            }
        }
    }
