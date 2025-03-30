@@ -30,6 +30,7 @@ struct TabViewContainer: View {
                SovereignBondsView()
                    .tabItem {
                        Image(systemName: "dollarsign.circle")
+                       Text("Sovereign Bonds Market")
                    }
            }
        }
