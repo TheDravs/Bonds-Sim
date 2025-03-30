@@ -28,6 +28,23 @@ struct ContentView: View {
         NavigationStack {
             VStack {
                 List {
+                    
+                    
+                    
+                     Section {
+                         VStack(alignment: .leading) {
+                             Text("$" + String(format: "%.2f", bondSettings.bondPriceDynamic))
+                                 .fontWeight(.bold)
+                                 .foregroundStyle(.white)
+                                 .padding()
+                                 .frame(maxWidth: .infinity)
+                                 .background(LinearGradient(gradient: Gradient(colors: [.blue, .purple]), startPoint: .topLeading, endPoint: .trailing))
+                                 .clipShape(RoundedRectangle(cornerRadius: 12))
+                                 .shadow(color: Color.blue.opacity(0.3), radius: 5, x:0,y:2)
+                         }
+                     }
+                    
+                    
                     Section {
                         VStack(alignment: .leading) {
                             Text("Credit Parameters")
@@ -109,47 +126,37 @@ struct ContentView: View {
                             }
                             .padding(.vertical, 15)
                         }
-                  
-                        VStack(alignment: .leading) {
-                            Text("Maturity")
-                                .font(.subheadline)
-                                .foregroundColor(.secondary)
-                            
-                            Slider(value: $bondSettings.maturity, in: 1...10, step: 1.0) {
-                                Text("Bond's Maturity")
-                            }
-                            .padding(.vertical, 5)
-                            .accentColor(.blue)
-                            .padding(.vertical, 5)
-                            
-                            HStack {
-                                Spacer()
-                                Text(String(format: "%.0f", bondSettings.maturity))
-                                Text("years")
-                                    .font(.system(.headline, design: .rounded))
-                                    .foregroundColor(.blue)
-                                    .padding(.horizontal, 12)
-                                    .padding(.vertical, 5)
-                                    .background(
-                                        RoundedRectangle(cornerRadius: 8)
-                                            .fill(Color.blue.opacity(0.1))
-                                    )
+                        
+                        Section {
+                            VStack(alignment: .leading) {
+                                Text("Maturity")
+                                    .font(.subheadline)
+                                    .foregroundColor(.secondary)
+                                
+                                Slider(value: $bondSettings.maturity, in: 1...10, step: 1.0) {
+                                    Text("Bond's Maturity")
+                                }
+                                .padding(.vertical, 5)
+                                .accentColor(.blue)
+                                .padding(.vertical, 5)
+                                
+                                HStack {
+                                    Spacer()
+                                    Text(String(format: "%.0f", bondSettings.maturity))
+                                    Text("years")
+                                        .font(.system(.headline, design: .rounded))
+                                        .foregroundColor(.blue)
+                                        .padding(.horizontal, 12)
+                                        .padding(.vertical, 5)
+                                        .background(
+                                            RoundedRectangle(cornerRadius: 8)
+                                                .fill(Color.blue.opacity(0.1))
+                                        )
+                                }
                             }
                         }
                     }
                    
-                    Section {
-                        VStack(alignment: .leading) {
-                            Text("$" + String(format: "%.2f", bondSettings.bondPriceDynamic))
-                                .fontWeight(.bold)
-                                .foregroundStyle(.white)
-                                .padding()
-                                .frame(maxWidth: .infinity)
-                                .background(LinearGradient(gradient: Gradient(colors: [.blue, .purple]), startPoint: .topLeading, endPoint: .trailing))
-                                .clipShape(RoundedRectangle(cornerRadius: 12))
-                                .shadow(color: Color.blue.opacity(0.3), radius: 5, x:0,y:2)
-                        }
-                    }
                 }
             }
             .listStyle(.insetGrouped)

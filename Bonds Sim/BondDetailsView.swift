@@ -47,9 +47,23 @@ struct BondDetailsView: View {
             }
             
             HStack {
+                Text("Bond Price:")
+                Spacer()
+                Text("$\(bondSettings.bondPriceDynamic, specifier: "%.2f")")
+                    .fontWeight(.semibold)
+            }
+            
+            HStack {
                 Text("Coupon Rate:")
                 Spacer()
                 Text("\(bondSettings.couponRate * 100, specifier: "%.2f")%")
+                    .fontWeight(.semibold)
+            }
+            
+            HStack {
+                Text("Required Rate:")
+                Spacer()
+                Text("\(bondSettings.requiredRate * 100, specifier: "%.2f")%")
                     .fontWeight(.semibold)
             }
             
@@ -92,45 +106,33 @@ struct BondDetailsView: View {
 
 struct ChartView: View {
     @ObservedObject var bondSettings: BondSettings
-    let yields: [Double] = Array(stride(from: -2.0, through: 2.0, by: 0.1)) // Yield changes (e.g., -2% to +2%)
+    let yields: [Double] = Array(stride(from: 0.01, through: 0.1, by: 0.005)) // Interest rates from 1% to 10%
     
     var body: some View {
         VStack {
-            Text("")
+            Text("Bond Price Sensitivity to Interest Rate")
                 .font(.headline)
                 .padding(.top)
             
             Chart {
-                // Convexity Curve
+                // Plot bond price at different yields
                 ForEach(yields, id: \.self) { y in
                     LineMark(
-                        x: .value("Yield Change", y),
+                        x: .value("Interest Rate", y * 100),  // Convert to percentage for readability
                         y: .value("Price", bondPrice(for: y))
                     )
                     .foregroundStyle(.blue)
                 }
-                
-                // Duration Tangent Line (approximate linear change)
-                LineMark(
-                    x: .value("Yield Change", -1.0),
-                    y: .value("Price", bondPrice(for: -1.0))
-                )
-                .foregroundStyle(.red)
-                .interpolationMethod(.linear)
-                
-                LineMark(
-                    x: .value("", 1.0),
-                    y: .value("", bondPrice(for: 1.0))
-                )
-                .foregroundStyle(.red)
-                .interpolationMethod(.linear)
             }
             .frame(height: 250)
             .padding()
             .chartXAxis {
-                AxisMarks(position: .bottom, values: .automatic) {
-                    AxisValueLabel(String(format: "%.1f", $0.as(Double.self) ?? 0.0))
-                    
+                AxisMarks(values: .stride(by: 2)) { value in  // Ensure the value is properly extracted
+                    AxisValueLabel {
+                        if let doubleValue = value.as(Double.self) {
+                            Text(String(format: "%.1f%%", doubleValue))
+                        }
+                    }
                 }
             }
             .chartYAxis {
@@ -139,17 +141,26 @@ struct ChartView: View {
         }
     }
     
-    /// Function to simulate bond price based on yield changes (convexity effect)
-    func bondPrice(for yieldChange: Double) -> Double {
-        // Vous pourriez utiliser les valeurs réelles du bondSettings ici pour des calculs plus précis
-        let initialPrice = bondSettings.faceValue // Utilisez la valeur faciale comme prix initial
-        let duration = 6.5         // Vous pourriez calculer cela dynamiquement
-        let convexity = 85.2       // Vous pourriez calculer cela dynamiquement
+    /// Function to calculate bond price dynamically based on different interest rates
+    func bondPrice(for newRate: Double) -> Double {
+        let coupon = bondSettings.coupon
+        let faceValue = bondSettings.faceValue
+        let maturity = Int(bondSettings.maturity)
         
-        let priceChange = (-duration * yieldChange) + (0.5 * convexity * yieldChange * yieldChange)
-        return initialPrice + priceChange
+        var price = 0.0
+        
+        // Discounted coupon payments
+        for t in 1...maturity {
+            price += coupon / pow(1.0 + newRate, Double(t))
+        }
+        
+        // Discounted face value
+        price += faceValue / pow(1.0 + newRate, Double(maturity))
+        
+        return price
     }
 }
+
 
 #Preview {
     BondDetailsView(bondSettings: BondSettings())
