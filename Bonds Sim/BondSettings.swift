@@ -10,7 +10,7 @@ import Foundation
 class BondSettings: ObservableObject {
     @Published var faceValue: Double = 1000.0
     @Published var couponRate: Double = 0.04
-    @Published var maturity: Double = 1.0
+    @Published var maturity: Double = 5.0
     @Published var creditRating: String = "Investment Grade"
     @Published var requiredRate: Double = 0.05
     
