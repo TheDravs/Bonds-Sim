@@ -25,13 +25,18 @@ struct ContentView: View {
     
     // MARK: Start of the code
     var body: some View {
+       
+        
         NavigationStack {
+           
             VStack {
+           
                 List {
                     
-                    
+                
                     
                      Section {
+                         
                          VStack(alignment: .leading) {
                              Text("$" + String(format: "%.2f", bondSettings.bondPriceDynamic))
                                  .fontWeight(.bold)

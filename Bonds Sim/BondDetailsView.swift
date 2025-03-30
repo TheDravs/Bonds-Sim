@@ -38,65 +38,82 @@ struct BondDetailsView: View {
             Text("Bond Characteristics")
                 .font(.title)
                 .fontWeight(.bold)
+                .padding(.bottom, 5)
 
-            HStack {
-                Text("Face Value:")
-                Spacer()
-                Text("$\(bondSettings.faceValue, specifier: "%.2f")")
-                    .fontWeight(.semibold)
-            }
-            
-            HStack {
-                Text("Bond Price:")
-                Spacer()
-                Text("$\(bondSettings.bondPriceDynamic, specifier: "%.2f")")
-                    .fontWeight(.semibold)
-            }
-            
-            HStack {
-                Text("Coupon Rate:")
-                Spacer()
-                Text("\(bondSettings.couponRate * 100, specifier: "%.2f")%")
-                    .fontWeight(.semibold)
-            }
-            
-            HStack {
-                Text("Required Rate:")
-                Spacer()
-                Text("\(bondSettings.requiredRate * 100, specifier: "%.2f")%")
-                    .fontWeight(.semibold)
-            }
-            
-            HStack {
-                Text("Maturity:")
-                Spacer()
-                Text("\(bondSettings.maturity, specifier: "%.0f") years")
-                    .fontWeight(.semibold)
-            }
-            
-            HStack {
-                Text("Credit Rating:")
-                Spacer()
-                Text(bondSettings.creditRating)
-                    .fontWeight(.semibold)
-            }
-            
-            HStack {
-                Text("Duration:")
-                Spacer()
-                Text(String(format: "%.2f", duration))
-                    .fontWeight(.semibold)
-            }
+            VStack(spacing: 10) {
+                HStack {
+                    Text("Face Value:")
+                        .foregroundColor(.primary)
+                    Spacer()
+                    Text("$\(bondSettings.faceValue, specifier: "%.2f")")
+                        .fontWeight(.semibold)
+                }
+                .padding(.vertical, 4)
 
-            Spacer()
-            
+                HStack {
+                    Text("Bond Price:")
+                        .foregroundColor(.primary)
+                    Spacer()
+                    Text("$\(bondSettings.bondPriceDynamic, specifier: "%.2f")")
+                        .fontWeight(.semibold)
+                }
+                .padding(.vertical, 4)
+
+                HStack {
+                    Text("Coupon Rate:")
+                        .foregroundColor(.primary)
+                    Spacer()
+                    Text("\(bondSettings.couponRate * 100, specifier: "%.2f")%")
+                        .fontWeight(.semibold)
+                }
+                .padding(.vertical, 4)
+
+                HStack {
+                    Text("Required Rate:")
+                        .foregroundColor(.primary)
+                    Spacer()
+                    Text("\(bondSettings.requiredRate * 100, specifier: "%.2f")%")
+                        .fontWeight(.semibold)
+                }
+                .padding(.vertical, 4)
+
+                HStack {
+                    Text("Maturity:")
+                        .foregroundColor(.primary)
+                    Spacer()
+                    Text("\(bondSettings.maturity, specifier: "%.0f") years")
+                        .fontWeight(.semibold)
+                }
+                .padding(.vertical, 4)
+
+                HStack {
+                    Text("Credit Rating:")
+                        .foregroundColor(.primary)
+                    Spacer()
+                    Text(bondSettings.creditRating)
+                        .fontWeight(.semibold)
+                }
+                .padding(.vertical, 4)
+
+                HStack {
+                    Text("Duration:")
+                        .foregroundColor(.primary)
+                    Spacer()
+                    Text(String(format: "%.2f", duration))
+                        .fontWeight(.semibold)
+                }
+                .padding(.vertical, 4)
+            }
+            .padding()
+            .background(RoundedRectangle(cornerRadius: 10).fill(Color(.systemBackground)).shadow(radius: 3))
+
             VStack {
-                Text("Convexity & Duration")
-                    .font(.headline)
-                    .padding(.top)
+               
 
                 ChartView(bondSettings: bondSettings)
-                    .frame(height: 200)
+                    .frame(height: 250)
+                  
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
                     .padding()
             }
         }
@@ -124,7 +141,7 @@ struct ChartView: View {
                     .foregroundStyle(.blue)
                 }
             }
-            .frame(height: 250)
+           
             .padding()
             .chartXAxis {
                 AxisMarks(values: .stride(by: 2)) { value in  // Ensure the value is properly extracted
