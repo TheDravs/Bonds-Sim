@@ -27,11 +27,7 @@ struct TabViewContainer: View {
                        Text("Details")
                    }
                
-               SovereignBondsView()
-                   .tabItem {
-                       Image(systemName: "dollarsign.circle")
-                       Text("Sovereign Bonds Market")
-                   }
+              
            }
        }
    }
