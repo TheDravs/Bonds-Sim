@@ -53,6 +53,20 @@ class BondSettings: ObservableObject {
        0.01...0.1
     }
     
+    var creditRatingDynamic: String {
+        
+        var rating: String
+        
+        if requiredRate > 0.08 {
+             rating = "High Yield"
+        } else {
+            rating = "Investment Grade"
+        }
+        
+        return rating
+    }
+    
+    
     // Helper validation methods
     func validateFaceValue(_ value: Double) -> (isValid: Bool, message: String?) {
         if value <= 0 {

@@ -73,6 +73,14 @@ struct ContentView: View {
                                                 TextField("", text: $inputFaceValueText)
                                                         .keyboardType(.decimalPad)
                                                         .focused($isFaceValueFocused)
+                                                        .toolbar {
+                                                            ToolbarItemGroup(placement: .keyboard) {
+                                                                Spacer()
+                                                                Button("Done") {
+                                                                    isFaceValueFocused = false
+                                                                }
+                                                            }
+                                                        }
                                                         .onAppear {
                                                         inputFaceValueText = "\(Int(bondSettings.faceValue))"
                                                                                }
@@ -150,7 +158,7 @@ struct ContentView: View {
                                     .font(.subheadline)
                                     .foregroundColor(.secondary)
                                 
-                                Slider(value: $bondSettings.maturity, in: 1...10, step: 1.0) {
+                                Slider(value: $bondSettings.maturity, in: 1...15, step: 1.0) {
                                     Text("Bond's Maturity")
                                 }
                                 .padding(.vertical, 5)
@@ -201,21 +209,20 @@ struct ContentView: View {
                 inputFaceValueText = filteredInput
             }
             
-            // Check if input is empty
-            if filteredInput.isEmpty {
-                showError("Face value cannot be empty")
-                return
-            }
-            
             // Check if it has more than one decimal point
             if filteredInput.filter({ $0 == "." }).count > 1 {
                 showError("Invalid number format")
                 return
             }
             
+            // Allow empty input without validation
+            if filteredInput.isEmpty {
+                inputFaceValueText = ""
+                return
+            }
+
             // Check if it's a valid number
             guard let value = Double(filteredInput) else {
-                showError("Please enter a valid number")
                 return
             }
             

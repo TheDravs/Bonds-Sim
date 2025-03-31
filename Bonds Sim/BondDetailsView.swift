@@ -90,7 +90,7 @@ struct BondDetailsView: View {
                     Text("Credit Rating:")
                         .foregroundColor(.primary)
                     Spacer()
-                    Text(bondSettings.creditRating)
+                    Text(bondSettings.creditRatingDynamic)
                         .fontWeight(.semibold)
                 }
                 .padding(.vertical, 4)
